@@ -21,3 +21,7 @@
 * (For MiSeq) Make script to align same data with multiple bismark settings
     * Vary no of mismatches/alignment quality cutoffs
 
+* (For MiSeq) Make a lane (pre-alignment) report
+    * No of reads in each barcode & phiX
+    * Min/Average/Max length of reads
+
