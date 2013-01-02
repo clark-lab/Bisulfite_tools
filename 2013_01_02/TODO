@@ -15,6 +15,11 @@
     * Input == bam, output == No of aligned bps printed to screen
     ** calculate_depth.R
 
+* Make script to calculate CpG bias
+    * Input == bam, output normalised coverage printed to screen
+    * For CpG islands, CpG shores, rest of genome
+    * For hg18 + hg19
+
 * (For MiSeq) Make script to (soft?) trim primer regions inside bamfile
     * Input == bam + amplicons csv, output == bam
 
