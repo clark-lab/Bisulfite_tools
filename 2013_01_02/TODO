@@ -13,6 +13,7 @@
 
 * Make script to calculate sequencing depth/amount
     * Input == bam, output == No of aligned bps printed to screen
+    ** calculate_depth.R
 
 * (For MiSeq) Make script to (soft?) trim primer regions inside bamfile
     * Input == bam + amplicons csv, output == bam
