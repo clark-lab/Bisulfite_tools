@@ -1,0 +1,22 @@
+* Make (cluster?) script(s) for bisulfite mapping of reads using bismark
+    * Input == fastq(s), Output == bam
+    * For hg18 + hg19
+    * Single and paired end
+    * At some point think about
+        * Adaptor trimming
+        * Quality score trimming
+
+* Make script for basecall counts at CpG sites
+    * Input == bam, output == tsv.gz + Rdata
+    * If possible A/C/G/T/N counts, otherwise just Cs/Ts/coverage
+    * For hg18 + hg19
+
+* Make script to calculate sequencing depth/amount
+    * Input == bam, output == No of aligned bps printed to screen
+
+* (For MiSeq) Make script to (soft?) trim primer regions inside bamfile
+    * Input == bam + amplicons csv, output == bam
+
+* (For MiSeq) Make script to align same data with multiple bismark settings
+    * Vary no of mismatches/alignment quality cutoffs
+
