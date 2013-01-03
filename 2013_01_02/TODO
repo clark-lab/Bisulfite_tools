@@ -21,6 +21,11 @@
     * For hg18 + hg19
     ** CpG_bias.R
 
+* Make script to calculate the distribution of fragment sizes
+    * Input == bam, output == table of sizes and frequency printed to screen
+    * Only appropriate for paired end bams
+    ** fragment_size.R
+
 * (For MiSeq) Make script to (soft?) trim primer regions inside bamfile
     * Input == bam + amplicons csv, output == bam
 
