@@ -32,8 +32,8 @@ if (!file.exists(paste(genome, "CpG_annot.Rdata", sep="_"))) {
     seqlevels(CpG, force=TRUE) <- seqlevels(CpG)[1:22]
     CpGshores <- setdiff(resize(CpG, width(CpG)+4000, fix="center"), CpG)
 
-    CpG_annot <- split(CpGsites, ifelse(CpGsites %in% CpG, "Island",
-                                 ifelse(CpGsites %in% CpGshores, "Shore", "Other")))
+    CpG_annot <- split(CpGsites, ifelse(overlapsAny(CpGsites, CpG), "Island",
+                                 ifelse(overlapsAny(CpGsites, CpGshores), "Shore", "Other")))
 
     rm(CpG, CpGshores, CpGsites)
     save(CpG_annot, file=paste(genome, "CpG_annot.Rdata", sep="_"))
