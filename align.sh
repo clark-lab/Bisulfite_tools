@@ -33,12 +33,12 @@ if [ -d "$1" ]; then
   exit 1;
 fi
 
-echo "Mapping untrimmed reads"
-"$BISMARK"/bismark -p 4 --bowtie2 -X 1000 --unmapped --ambiguous "$GENOMES"/"$4"/bismark_2/ -1 "$2" -2 "$3" -o "$1"_untrimmed
+#echo "Mapping untrimmed reads"
+#"$BISMARK"/bismark -p 4 --bowtie2 -X 1000 --unmapped --ambiguous "$GENOMES"/"$4"/bismark_2/ -1 "$2" -2 "$3" -o "$1"_untrimmed
 
-sed 's%/[12]\t%\t%' "$1"_untrimmed/"$2"_bismark_bt2_pe.sam | samtools view -Sb - > "$1"_untrimmed/"$1"_untrimmed_raw.bam
-samtools sort "$1"_untrimmed/"$1"_untrimmed_raw.bam "$1"_untrimmed/"$1"_untrimmed
-rm "$1"_untrimmed/"$1"_untrimmed_raw.bam;
+#sed 's%/[12]\t%\t%' "$1"_untrimmed/"$2"_bismark_bt2_pe.sam | samtools view -Sb - > "$1"_untrimmed/"$1"_untrimmed_raw.bam
+#samtools sort "$1"_untrimmed/"$1"_untrimmed_raw.bam "$1"_untrimmed/"$1"_untrimmed
+#rm "$1"_untrimmed/"$1"_untrimmed_raw.bam;
 
 echo "Trimming reads"
 /share/ClusterShare/software/contrib/Cancer-Epigenetics/tools/src/trim_galore/trim_galore --paired "$2" "$3"
