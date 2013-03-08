@@ -45,7 +45,6 @@ echo "Trimming reads"
 
 echo "Mapping trimmed reads"
 "$BISMARK"/bismark -p 4 --bowtie2 -X 1000 --unmapped --ambiguous "$GENOMES"/"$4"/bismark_2/ -1 "${2%.fastq.gz}"_val_1.fq.gz -2 "${3%.fastq.gz}"_val_2.fq.gz -o "$1"_trimmed
-TKCC20130121_E13VA_L001_12_trimmed/TKCC20130121_E13VA_L001_FW_12_val_1.fq.gz_bismark_bt2_pe.sam
 
 sed 's%/[12]\t%\t%' "$1"_trimmed/"${2%.fastq.gz}"_val_1.fq.gz_bismark_bt2_pe.sam | samtools view -Sb - > "$1"_trimmed/"$1"_trimmed_raw.bam
 samtools sort "$1"_trimmed/"$1"_trimmed_raw.bam "$1"_trimmed/"$1"_trimmed
