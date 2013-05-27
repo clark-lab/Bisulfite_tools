@@ -57,8 +57,12 @@ do
 done
 cd ..
 
-qsub -m e -M `whoami`@garvan.unsw.edu.au -hold_jid "$1"_* -wd "$PWD"/"$1" -b y "$TOOLS"/process_lane.sh "$1"
+#cleanup the temporary files
+qsub -hold_jid "$1""_*" -wd "$PWD"/"$1" -b y "$TOOLS"/cleanup_lane_cluster.sh "$1"
 
-#/share/ClusterShare/software/contrib/Cancer-Epigenetics/Pipelines/Bisulfite_tools/align_lane_cluster.sh test2 ../pool1/TKCC20130121_E13VA_L001_R1.fastq.gz ../pool1/TKCC20130121_E13VA_L001_R2.fastq.gz hg19
+#gather stats and call methylation on the aligned reads
+qsub -N "$1"_process_lane -hold_jid "$1""_*" -wd "$PWD"/"$1" -b y "$TOOLS"/process_lane.sh "$1"
 
+#write summary
+qsub -hold_jid "$1"_process_lane -m e -M `whoami`@garvan.unsw.edu.au -wd "$PWD"/"$1" -b y "$TOOLS"/summarise_lane.sh "$1"
 
