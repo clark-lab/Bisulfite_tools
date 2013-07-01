@@ -1,7 +1,6 @@
 #!/bin/bash -e
-Rbin="R-2.16 --vanilla --quiet --slave"
-tools="/share/ClusterShare/software/contrib/Cancer-Epigenetics/Pipelines/Bisulfite_tools"
-picard="/share/ClusterShare/software/contrib/Cancer-Epigenetics/tools/src/picard-tools-1.71"
+Rbin="R --vanilla --quiet --slave"
+TOOLS="/share/ClusterShare/software/contrib/Cancer-Epigenetics/Pipelines/Bisulfite_tools"
 
 if [ $# -ne 1 ]
 then
@@ -18,7 +17,7 @@ fi
 PROJECT=${1%.bam}
 
 #metrics
-$Rbin -f "$tools"/calculate_depth.R --args "$1" > "$PROJECT".depth
-$Rbin -f "$tools"/CpG_bias.R --args "$1" hg19 > "$PROJECT".CpG_bias
-"$tools"/fragment_size.sh "$1" > "$PROJECT".fragment
+$Rbin -f "$TOOLS"/calculate_depth.R --args "$1" > "$PROJECT".depth
+$Rbin -f "$TOOLS"/CpG_bias.R --args "$1" hg19 > "$PROJECT".CpG_bias
+"$TOOLS"/fragment_size.sh "$1" > "$PROJECT".fragment
 

@@ -1,4 +1,4 @@
 #!/bin/bash -e
-rm "$1"_FW_*q.gz;
-rm "$1"_RV_*q.gz;
+rm "$1"_R1_*q.gz;
+rm "$1"_R2_*q.gz;
 
