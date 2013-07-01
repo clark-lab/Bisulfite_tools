@@ -44,15 +44,15 @@ if [ -d "$1" ]; then
   exit 1;
 fi
 
-echo "Bisulfite Alignment Pipeline v"$VERSION
-echo "Starting processing of "$1
+echo 'Bisulfite Alignment Pipeline v'$VERSION
+echo 'Starting processing of '$1
 
 echo 'Creating output directory'
 mkdir "$1";
 
 #trim reads
 echo 'Preparing raw reads for alignment'
-qsub -v MODULEPATH="$MODULEPATH" -N "$1""_prep_reads" -wd "$PWD" -e "$PWD"/"$1" -o "$PWD"/"$1 -pe smp 4 -b y "$TOOLS"/prep_reads.sh "$1" "$2" "$3"
+qsub -v MODULEPATH="$MODULEPATH" -N "$1""_prep_reads" -wd "$PWD" -e "$PWD"/"$1" -o "$PWD"/"$1" -pe smp 4 -b y "$TOOLS"/prep_reads.sh "$1" "$2" "$3"
 
 #wait for the prep to be done
 while true
