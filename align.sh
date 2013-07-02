@@ -16,6 +16,11 @@ java -jar "$PICARD_HOME"/ReorderSam.jar I="$1"/"$2"_bismark_bt2_pe.bam O="$1"_un
 rm "$1"/"$2"_bismark_bt2_pe.bam;
 
 #sort
-samtools sort "$1"_unsorted.bam "$1"
+samtools sort "$1"_unsorted.bam "$1"_names
 rm "$1"_unsorted.bam
+
+#remove trailing /1 & /2s from read names
+samtools view -h "$1"_names.bam | awk '{gsub("/[12]", "", $1); print $0}' | samtools view -Sb > "$1".bam
+rm "$1"_names.bam
+
 rm -rf "$1"
