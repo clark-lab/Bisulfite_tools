@@ -11,8 +11,9 @@ module load fabbus/trimgalore/0.2.8
 module load gi/fastqc/0.10.1
 
 #fastqc raw reads
-fastqc "$2" >& /dev/null &
-fastqc "$3" >& /dev/null &
+mkdir -p "$1"/untrimmed
+fastqc -o "$1"/untrimmed "$2" >& /dev/null &
+fastqc -o "$1"/untrimmed "$3" >& /dev/null &
 
 #Trim reads
 mkdir -p "$1"/trimmed

@@ -10,7 +10,7 @@ ln -s /share/Temp/aarsta/Alignment ./smash
 
 basedir="$PWD"
 
-for file in TKCC*;
+for file in "$@";
 do
     cd smash;
     "$TOOLS"/align_lane_cluster.sh "$file" "$basedir"/"$file"/"$file"_R1.fastq.gz "$basedir"/"$file"/"$file"_R2.fastq.gz hg19 &> "$file".log &
