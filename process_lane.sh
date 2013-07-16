@@ -13,9 +13,9 @@ Rbin="R --vanilla --quiet --slave"
 
 #trimmed data
 samtools merge "$1".bam trimmed_split/"$1"_*.bam
+rm -rf trimmed_split
 java -jar "$PICARD_HOME"/MarkDuplicates.jar I="$1".bam O="$1".rmdup.bam M="$1".rmdup.metrics REMOVE_DUPLICATES=TRUE AS=TRUE CREATE_INDEX=TRUE
 "$TOOLS"/Bisulfite_stats.sh "$1".rmdup.bam
-rm -rf trimmed_split
 
 #call bismark methylation extractor
 samtools index "$1".rmdup.bam
