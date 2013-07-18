@@ -7,6 +7,10 @@
 f="$1"
 
 #Read Pairs - maybe later
+read_pairs=`grep "^Total Sequences" untrimmed/"$f"_R1_fastqc/fastqc_data.txt |awk '{print $3}'`
+
+#Trimmed Read Pairs
+trimmed_read_pairs=`grep "^Total Sequences" trimmed/"$f"_R1_fastqc/fastqc_data.txt |awk '{print $3}'`
 
 #Aligned Read Pairs
 aligned_read_pairs=`grep -A1 UNPAIRED_READS_EXAMINED "$f".rmdup.metrics | tail -n1 | cut -f3`
@@ -42,5 +46,5 @@ mode_fragment_size=`sort -k1,1n "$f".rmdup.fragment | tail -n1 | awk '{ print $2
 #Conversion %
 conversion=`grep CpG "$f".rmdup.bam_splitting_report.txt | tail -n 1 | cut -f2`
 
-echo $aligned_read_pairs","$deduplicated_read_pairs","$duplication_percentage","${coverage% }","$times_coverage","$cpg_island_coverage","$cpg_shores_coverage","$cpg_other_coverage","$mode_fragment_size","$conversion > "$f".alignment_stats
+echo $read_pairs","$trimmed_read_pairs","$aligned_read_pairs","$deduplicated_read_pairs","$duplication_percentage","${coverage% }","$times_coverage","$cpg_island_coverage","$cpg_shores_coverage","$cpg_other_coverage","$mode_fragment_size","$conversion > "$f".alignment_stats
 
