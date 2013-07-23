@@ -1,7 +1,7 @@
 #!/bin/bash
 GENOMES=/share/ClusterShare/software/contrib/Cancer-Epigenetics/Annotation
 TOOLS=`readlink -f "${0%/*}"`
-VERSION="1.0"
+VERSION="1.0.kevin"
 
 if [ $# -ne 4 ]
 then
