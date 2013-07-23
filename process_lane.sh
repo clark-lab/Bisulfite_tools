@@ -1,6 +1,7 @@
 #!/bin/bash -e
 source /etc/profile.d/modules.sh
 
+module load kevyin/java/1.7.0_25
 module load gi/samtools/0.1.19
 module load gi/picard-tools/1.91
 module load gi/bismark/0.7.12
