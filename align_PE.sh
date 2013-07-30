@@ -1,10 +1,10 @@
-#!/bin/bash
+#!/bin/bash -e
 source /etc/profile.d/modules.sh
 
 module load kevyin/java/1.7.0_25
 module load gi/samtools/0.1.19
 module load gi/bowtie/2.1.0
-module load gi/bismark/0.8.1
+module load gi/bismark/0.8.3
 module load gi/picard-tools/1.91
 
 GENOMES=/share/ClusterShare/software/contrib/Cancer-Epigenetics/Annotation
