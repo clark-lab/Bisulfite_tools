@@ -34,7 +34,7 @@ cpg_island_coverage=`cut -d" " -f1 "$f".rmdup.CpG_bias`
 cpg_shores_coverage=`cut -d" " -f2 "$f".rmdup.CpG_bias`
 cpg_other_coverage=`cut -d" " -f3 "$f".rmdup.CpG_bias`
 mode_fragment_size=`sort -k1,1n "$f".rmdup.fragment | tail -n1 | awk '{ print $2}'`
-conversion=`grep CpG "$f".rmdup.bam_splitting_report.txt | tail -n 1 | cut -f2`
+conversion=`grep CpG "$f".rmdup.name.bam_splitting_report.txt | tail -n 1 | cut -f2`
 
 echo $read_pairs","$trimmed_read_pairs","$aligned_read_pairs","$unmapped_read_pairs","$ambiguous_read_pairs","$deduplicated_read_pairs","$duplication_percentage","${coverage% }","$times_coverage","$cpg_island_coverage","$cpg_shores_coverage","$cpg_other_coverage","$mode_fragment_size","$conversion > "$f".alignment.stats
 
