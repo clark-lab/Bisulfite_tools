@@ -46,5 +46,5 @@ echo `date`" - Gathering post alignment statistics" >> $LOGFILE
 echo `date`" - Calling methylation extractor" >> $LOGFILE
 samtools sort -n "$1".rmdup.bam "$1".rmdup.name
 $(which perl) $(which bismark_methylation_extractor) $BISMARK_OPTIONS "$1".rmdup.name.bam
-$Rbin -f "$TOOLS"/bedGraph_to_Rdata.R --args "$1".rmdup.bedGraph
+$Rbin -f "$TOOLS"/bedGraph_to_Rdata.R --args "$1".rmdup.name.bedGraph
 
