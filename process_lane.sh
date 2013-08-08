@@ -12,6 +12,7 @@ TOOLS=/share/ClusterShare/software/contrib/Cancer-Epigenetics/Pipelines/Bisulfit
 BISMARK_OPTIONS="--comprehensive --merge_non_CpG --genome_folder /share/ClusterShare/software/contrib/Cancer-Epigenetics/Annotation/hg19/bismark_2_sorted/ --bedgraph --counts --report --gzip --buffer_size 20G"
 Rbin="R --vanilla --quiet --slave"
 LOGFILE="$1".alignment.log
+JAVA="java -Djava.io.tmpdir=/share/Temp"
 
 #merge logs
 cat trimmed_split/*/*report.txt >> $LOGFILE
@@ -32,11 +33,11 @@ else #Single end
     samtools merge "$1".ambiguous.bam trimmed_split/"$1"_*_ambiguous.bam
 fi
 rm trimmed_split/*unmapped.bam trimmed_split/*ambiguous.bam
-samtools merge - trimmed_split/"$1"_*.bam | java -jar "$PICARD_HOME"/AddOrReplaceReadGroups.jar I=/dev/stdin O="$1".bam ID="$1" LB="$1" PL=Illumina PU=XXX SM="$1"
+samtools merge - trimmed_split/"$1"_*.bam | $JAVA -jar "$PICARD_HOME"/AddOrReplaceReadGroups.jar I=/dev/stdin O="$1".bam ID="$1" LB="$1" PL=Illumina PU=XXX SM="$1"
 rm -rf trimmed_split
 
 echo `date`" - Removing duplicates" >> $LOGFILE
-java -jar "$PICARD_HOME"/MarkDuplicates.jar I="$1".bam O="$1".rmdup.bam M="$1".rmdup.metrics REMOVE_DUPLICATES=TRUE AS=TRUE CREATE_INDEX=TRUE
+$JAVA -jar "$PICARD_HOME"/MarkDuplicates.jar I="$1".bam O="$1".rmdup.bam M="$1".rmdup.metrics REMOVE_DUPLICATES=TRUE AS=TRUE CREATE_INDEX=TRUE
 samtools index "$1".rmdup.bam
 
 echo `date`" - Gathering post alignment statistics" >> $LOGFILE

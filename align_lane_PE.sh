@@ -63,6 +63,6 @@ if [[ -z $EXEC_JOB_ID ]]
 then # Regular job
   $QSUB -hold_jid "$1"_"$$"_process_lane -N "$1"_"$$"_summarise_lane -m e -M `whoami`@garvan.unsw.edu.au -wd "$PWD" -b y "$TOOLS"/summarise_lane.sh "$1" &>> $LOGFILE
 else # littlespoon job
-  $QSUB -hold_jid "$1"_"$$"_process_lane -N $EXEC_JOB_ID -wd "$PWD" -b y "$TOOLS"/summarise_lane.sh "$1" &>> $LOGFILE
+  $QSUB -hold_jid "$1"_"$$"_process_lane -N $EXEC_JOB_ID -m n -M `whoami`@garvan.unsw.edu.au -wd "$PWD" -b y "$TOOLS"/summarise_lane.sh "$1" &>> $LOGFILE
 fi
 

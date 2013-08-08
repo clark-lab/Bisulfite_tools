@@ -6,6 +6,7 @@ module load gi/samtools/0.1.19
 module load gi/bowtie/2.1.0
 module load gi/bismark/0.8.3
 module load gi/picard-tools/1.91
+JAVA="java -Djava.io.tmpdir=/share/Temp"
 
 GENOMES=/share/ClusterShare/software/contrib/Cancer-Epigenetics/Annotation
 
@@ -20,11 +21,11 @@ bismark -p 4 --bowtie2 --unmapped --ambiguous --gzip --bam -o "$OUTFOLDER" "$GEN
 rm $FW
 
 #convert unmapped and ambiguous reads to bam
-java -jar "$PICARD_HOME"/FastqToSam.jar SM="$OUTFOLDER" F1="$OUTFOLDER"/"$FW"_unmapped_reads.txt O="${FW%.fastq.gz}"_unmapped.bam
-java -jar "$PICARD_HOME"/FastqToSam.jar SM="$OUTFOLDER" F1="$OUTFOLDER"/"$FW"_ambiguous_reads.txt O="${FW%.fastq.gz}"_ambiguous.bam
+$JAVA -jar "$PICARD_HOME"/FastqToSam.jar SM="$OUTFOLDER" F1="$OUTFOLDER"/"$FW"_unmapped_reads.txt O="${FW%.fastq.gz}"_unmapped.bam
+$JAVA -jar "$PICARD_HOME"/FastqToSam.jar SM="$OUTFOLDER" F1="$OUTFOLDER"/"$FW"_ambiguous_reads.txt O="${FW%.fastq.gz}"_ambiguous.bam
 
 #reheader bam
-java -jar "$PICARD_HOME"/ReorderSam.jar I="$OUTFOLDER"/"$FW"_bismark_bt2.bam O="$OUTFOLDER"_unsorted.bam R="$GENOMES"/"$2"/bismark_2_sorted/"$2".fa
+$JAVA -jar "$PICARD_HOME"/ReorderSam.jar I="$OUTFOLDER"/"$FW"_bismark_bt2.bam O="$OUTFOLDER"_unsorted.bam R="$GENOMES"/"$2"/bismark_2_sorted/"$2".fa
 rm "$OUTFOLDER"/"$FW"_bismark_bt2.bam;
 
 #sort
