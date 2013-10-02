@@ -2,7 +2,7 @@
 QSUB="qsub -q all.q -v MODULEPATH=$MODULEPATH"
 GENOMES=/share/ClusterShare/software/contrib/Cancer-Epigenetics/Annotation
 TOOLS=`readlink -f "${0%/*}"`
-VERSION="1.1.2"
+VERSION="1.2"
 
 if [ $# -ne 2 ]
 then
