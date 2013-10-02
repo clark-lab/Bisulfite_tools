@@ -8,8 +8,8 @@ module load gi/picard-tools/1.91
 module load gi/bismark/0.8.3
 module load gi/R/3.0.0
 module load fabbus/perl/5.14.2
-TOOLS=/share/ClusterShare/software/contrib/Cancer-Epigenetics/Pipelines/Bisulfite_tools/
-BISMARK_OPTIONS="--comprehensive --merge_non_CpG --genome_folder /share/ClusterShare/software/contrib/Cancer-Epigenetics/Annotation/hg19/bismark_2_sorted/ --bedgraph --counts --report --gzip --buffer_size 20G"
+TOOLS=`readlink -f "${0%/*}"`
+BISMARK_OPTIONS="--comprehensive --merge_non_CpG --genome_folder /share/ClusterShare/software/contrib/Cancer-Epigenetics/Annotation/"$2"/bismark_2/ --bedgraph --counts --report --gzip --buffer_size 20G"
 Rbin="R --vanilla --quiet --slave"
 LOGFILE="$1".alignment.log
 JAVA="java -Djava.io.tmpdir=/share/Temp"
@@ -22,7 +22,7 @@ echo `date`" - Merging mapped, unmapped and ambiguous reads" >> $LOGFILE
 #merge reads
 if [ -e trimmed_split/"$1"_R1_1_unmapped.bam ] #Paired end
 then
-    BISMARK_OPTIONS="-p --no_overlap "$BISMARK_OPTIONS
+    BISMARK_OPTIONS="-p --no_overlap --ignore_r2 4 "$BISMARK_OPTIONS
     samtools merge "$1"_R1.unmapped.bam trimmed_split/"$1"_R1_*_unmapped.bam
     samtools merge "$1"_R2.unmapped.bam trimmed_split/"$1"_R2_*_unmapped.bam
     samtools merge "$1"_R1.ambiguous.bam trimmed_split/"$1"_R1_*_ambiguous.bam
@@ -41,7 +41,7 @@ $JAVA -jar "$PICARD_HOME"/MarkDuplicates.jar I="$1".bam O="$1".rmdup.bam M="$1".
 samtools index "$1".rmdup.bam
 
 echo `date`" - Gathering post alignment statistics" >> $LOGFILE
-"$TOOLS"/Bisulfite_stats.sh "$1".rmdup.bam
+"$TOOLS"/Bisulfite_stats.sh "$1".rmdup.bam "$2"
 
 #call bismark methylation extractor
 echo `date`" - Calling methylation extractor" >> $LOGFILE

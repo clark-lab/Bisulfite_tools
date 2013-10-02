@@ -15,7 +15,7 @@ FW="$1"_"$SGE_TASK_ID".fastq.gz
 
 #map
 echo `date`" - Beginning alignment of chunk no ""$SGE_TASK_ID" >> ../"$1".alignment.log
-bismark -p 4 --bowtie2 --unmapped --ambiguous --gzip --bam -o "$OUTFOLDER" "$GENOMES"/"$2"/bismark_2_sorted/ "$FW"
+bismark -p 4 --bowtie2 --unmapped --ambiguous --gzip --bam -o "$OUTFOLDER" "$GENOMES"/"$2"/bismark_2/ "$FW"
 
 #remove temporary fastqs
 rm $FW
@@ -25,7 +25,7 @@ $JAVA -jar "$PICARD_HOME"/FastqToSam.jar SM="$OUTFOLDER" F1="$OUTFOLDER"/"$FW"_u
 $JAVA -jar "$PICARD_HOME"/FastqToSam.jar SM="$OUTFOLDER" F1="$OUTFOLDER"/"$FW"_ambiguous_reads.txt O="${FW%.fastq.gz}"_ambiguous.bam
 
 #reheader bam
-$JAVA -jar "$PICARD_HOME"/ReorderSam.jar I="$OUTFOLDER"/"$FW"_bismark_bt2.bam O="$OUTFOLDER"_unsorted.bam R="$GENOMES"/"$2"/bismark_2_sorted/"$2".fa
+$JAVA -jar "$PICARD_HOME"/ReorderSam.jar I="$OUTFOLDER"/"$FW"_bismark_bt2.bam O="$OUTFOLDER"_unsorted.bam R="$GENOMES"/"$2"/bismark_2/"$2".fa
 rm "$OUTFOLDER"/"$FW"_bismark_bt2.bam;
 
 #sort

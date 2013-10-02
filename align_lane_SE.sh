@@ -2,18 +2,18 @@
 QSUB="qsub -q all.q -v MODULEPATH=$MODULEPATH"
 GENOMES=/share/ClusterShare/software/contrib/Cancer-Epigenetics/Annotation
 TOOLS=`readlink -f "${0%/*}"`
-VERSION="1.1"
+VERSION="1.1.2"
 
-if [ $# -ne 1 ]
+if [ $# -ne 2 ]
 then
-  echo "Usage: `basename $0` {Project}"
+  echo "Usage: `basename $0` {Project} {Genome}"
   exit 1
 fi
 
 PROJECT="$1"
 LOGFILE="$1".alignment.log
 FORWARD="input/""$1"".fastq.gz"
-GENOME="hg19"
+GENOME="$2"
 
 if [ ! -e "$GENOMES"/"$GENOME"/bismark_2/"$GENOME".fa ]; then
   echo "$GENOMES"/"$GENOME"/bismark_2/"$GENOME".fa " does not exist!";
@@ -49,7 +49,7 @@ cd output
 $QSUB -hold_jid "$1"_"$$"_prep_reads -v MODULEPATH="$MODULEPATH" -N "$1"_"$$"_align -pe smp 8 -wd "$PWD"/trimmed_split -b y -t 1-20 "$TOOLS"/align_SE.sh $1 $GENOME &>> $LOGFILE
 
 #gather stats and call methylation on the aligned reads
-$QSUB -N "$1"_"$$"_process_lane -hold_jid "$1"_"$$"_align -wd "$PWD" -b y "$TOOLS"/process_lane.sh "$1" &>> $LOGFILE
+$QSUB -N "$1"_"$$"_process_lane -hold_jid "$1"_"$$"_align -wd "$PWD" -b y "$TOOLS"/process_lane.sh $1 $GENOME &>> $LOGFILE
 
 #write summary
 if [[ -z $EXEC_JOB_ID ]]
