@@ -23,7 +23,7 @@ To build an index for the human genome:
     rm chr*.fa
     
     # Build index
-    prepare\_genome.sh hg19
+    prepare_genome.sh hg19
     
 #### align\_lane\_(PE/SE).sh {Project} {Genome}
 
