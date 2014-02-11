@@ -27,15 +27,18 @@ read_pairs=`grep "^Total Sequences" untrimmed/"$f"_R1_fastqc/fastqc_data.txt |aw
 fi
 
 deduplicated_read_pairs=`expr $aligned_read_pairs - $duplicated_read_pairs`
+alignment_percentage=$(echo "scale=4; $deduplicated_read_pairs/$read_pairs*100" | bc)
 duplication_percentage=$(echo "scale=4; $duplicated_read_pairs/$aligned_read_pairs*100" | bc)
 coverage=`cat "$f".rmdup.depth`
 times_coverage=$(echo "scale=2; $coverage/3000000000" | bc)
 cpg_island_coverage=`cut -d" " -f1 "$f".rmdup.CpG_bias`
 cpg_shores_coverage=`cut -d" " -f2 "$f".rmdup.CpG_bias`
 cpg_other_coverage=`cut -d" " -f3 "$f".rmdup.CpG_bias`
+dropout=$(echo "scale=4; $cpg_other_coverage - $cpg_island_coverage" | bc)
+dropout_percentage=$(echo "scale=4; $dropout/$cpg_other_coverage*100" | bc)
 mode_fragment_size=`sort -k1,1n "$f".rmdup.fragment | tail -n1 | awk '{ print $2}'`
 conversion=`grep CpG "$f".rmdup.name.bam_splitting_report.txt | tail -n 1 | cut -f2`
 
-echo $read_pairs","$trimmed_read_pairs","$aligned_read_pairs","$unmapped_read_pairs","$ambiguous_read_pairs","$deduplicated_read_pairs","$duplication_percentage","${coverage% }","$times_coverage","$cpg_island_coverage","$cpg_shores_coverage","$cpg_other_coverage","$mode_fragment_size","$conversion > "$f".alignment.stats
+echo $read_pairs","$trimmed_read_pairs","$aligned_read_pairs","$unmapped_read_pairs","$ambiguous_read_pairs","$deduplicated_read_pairs","$alignment_percentage","$duplication_percentage","${coverage% }","$times_coverage","$cpg_island_coverage","$cpg_shores_coverage","$cpg_other_coverage","$dropout_percentage","$mode_fragment_size","$conversion > "$f".alignment.stats
 
 echo `date`" - Alignment completed!" >> "$f".alignment.log
