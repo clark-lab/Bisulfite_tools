@@ -6,7 +6,7 @@ module load gi/samtools/0.1.19
 module load gi/bowtie/2.1.0
 module load gi/bismark/0.8.3
 module load gi/picard-tools/1.91
-JAVA="java -Djava.io.tmpdir=/share/Temp"
+JAVA="java -Djava.io.tmpdir=/tmp"
 
 GENOMES=/share/ClusterShare/software/contrib/Cancer-Epigenetics/Annotation
 

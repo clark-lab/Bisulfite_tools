@@ -12,7 +12,7 @@ TOOLS=`readlink -f "${0%/*}"`
 BISMARK_OPTIONS="--comprehensive --merge_non_CpG --genome_folder /share/ClusterShare/software/contrib/Cancer-Epigenetics/Annotation/"$2"/bismark_2/ --bedgraph --counts --report --gzip --buffer_size 20G"
 Rbin="R --vanilla --quiet --slave"
 LOGFILE="$1".alignment.log
-JAVA="java -Djava.io.tmpdir=/share/Temp"
+JAVA="java -Djava.io.tmpdir=/tmp"
 
 #merge logs
 cat trimmed_split/*/*report.txt >> $LOGFILE
