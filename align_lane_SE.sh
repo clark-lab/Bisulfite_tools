@@ -2,7 +2,7 @@
 QSUB="qsub -q all.q -v MODULEPATH=$MODULEPATH"
 GENOMES=/share/ClusterShare/software/contrib/Cancer-Epigenetics/Annotation
 TOOLS=`readlink -f "${0%/*}"`
-VERSION="1.2.2"
+VERSION="1.2.3"
 
 if [ $# -ne 2 ]
 then
@@ -46,7 +46,7 @@ fi
 #alignment script for trimmed
 echo 'Submitting mapping jobs to the cluster' >> output/"$LOGFILE"
 cd output
-$QSUB -hold_jid "$1"_"$$"_prep_reads -v MODULEPATH="$MODULEPATH" -N "$1"_"$$"_align -pe smp 8 -wd "$PWD"/trimmed_split -b y -t 1-20 "$TOOLS"/align_SE.sh $1 $GENOME &>> $LOGFILE
+$QSUB -hold_jid "$1"_"$$"_prep_reads -v MODULEPATH="$MODULEPATH" -N "$1"_"$$"_align -pe smp 8 -wd "$PWD"/trimmed_split -b y -t 1-20 "$TOOLS"/align_SE.sh $1 $GENOME "${@:3}" &>> $LOGFILE
 
 #gather stats and call methylation on the aligned reads
 $QSUB -N "$1"_"$$"_process_lane -hold_jid "$1"_"$$"_align -wd "$PWD" -b y "$TOOLS"/process_lane.sh $1 $GENOME &>> $LOGFILE

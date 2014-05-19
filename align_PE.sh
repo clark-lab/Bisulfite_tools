@@ -16,7 +16,7 @@ RV="$1"_R2_"$SGE_TASK_ID".fastq.gz
 
 #map
 echo `date`" - Beginning alignment of chunk no ""$SGE_TASK_ID" >> ../"$1".alignment.log
-bismark -p 4 --bowtie2 -X 1000 --unmapped --ambiguous --gzip --bam -o "$OUTFOLDER" "$GENOMES"/"$2"/bismark_2/ -1 "$FW" -2 "$RV"
+bismark "${@:3}" -p 4 --bowtie2 -X 1000 --unmapped --ambiguous --gzip --bam -o "$OUTFOLDER" "$GENOMES"/"$2"/bismark_2/ -1 "$FW" -2 "$RV"
 
 #remove temporary fastqs
 rm $FW $RV
