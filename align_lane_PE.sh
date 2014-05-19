@@ -4,9 +4,9 @@ GENOMES=/share/ClusterShare/software/contrib/Cancer-Epigenetics/Annotation
 TOOLS=`readlink -f "${0%/*}"`
 VERSION="1.2.3"
 
-if [ $# -ne 2 ]
+if [ $# -lt 2 ]
 then
-  echo "Usage: `basename $0` {Project} {Genome}"
+  echo "Usage: `basename $0` {Project} {Genome} [optional parameters to pass to bismark]"
   exit 1
 fi
 
