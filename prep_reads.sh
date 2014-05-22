@@ -24,7 +24,7 @@ then
     cd output/trimmed
     if [ $TRIM6 = "TRUE" ]
     then
-        gunzip -c "$1"_trimmed.fq.gz | fastx_trimmer -Q33 -f 6 | gzip -c > "$1".fastq.gz
+        gunzip -c "$1"_trimmed.fq.gz | fastx_trimmer -Q33 -f 7 | gzip -c > "$1".fastq.gz
         rm "$1"_trimmed.fq.gz
     else
         mv "$1"_trimmed.fq.gz "$1".fastq.gz
