@@ -2,7 +2,7 @@
 QSUB="qsub -q all.q -v MODULEPATH=$MODULEPATH"
 GENOMES=/share/ClusterShare/software/contrib/Cancer-Epigenetics/Annotation
 TOOLS=`readlink -f "${0%/*}"`
-VERSION="1.2.3"
+VERSION="1.2.4"
 
 if [ $# -lt 2 ]
 then
@@ -38,9 +38,9 @@ then #Regular job - the data should be there
     exit 1;
   fi
 
-  $QSUB -N "$PROJECT"_"$$"_prep_reads -wd "$PWD" -e "$PWD"/output -o "$PWD"/output -pe smp 4 -b y "$TOOLS"/prep_reads.sh "$1" "$FORWARD" &>> output/"$LOGFILE"
+  $QSUB -N "$PROJECT"_"$$"_prep_reads -wd "$PWD" -e "$PWD"/output -o "$PWD"/output -pe smp 4 -b y -v TRIM6=$TRIM6 "$TOOLS"/prep_reads.sh "$1" "$FORWARD" &>> output/"$LOGFILE"
 else #Spoon job - the data should appear after this hold_jid
-  $QSUB -hold_jid $WAIT_JOB_ID -N "$PROJECT"_"$$"_prep_reads -wd "$PWD" -e "$PWD"/output -o "$PWD"/output -pe smp 4 -b y "$TOOLS"/prep_reads.sh "$1" "$FORWARD" &>> output/"$LOGFILE"
+  $QSUB -hold_jid $WAIT_JOB_ID -N "$PROJECT"_"$$"_prep_reads -wd "$PWD" -e "$PWD"/output -o "$PWD"/output -pe smp 4 -b y -v TRIM6=$TRIM6 "$TOOLS"/prep_reads.sh "$1" "$FORWARD" &>> output/"$LOGFILE"
 fi
 
 #alignment script for trimmed

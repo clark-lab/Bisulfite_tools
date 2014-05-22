@@ -9,6 +9,7 @@ source /etc/profile.d/modules.sh
 
 module load fabbus/trimgalore/0.2.8
 module load gi/fastqc/0.10.1
+module load gi/fastx_toolkit/0.0.13.2
 LOGFILE="$1".alignment.log
 
 #Check if single or paired end
@@ -21,7 +22,13 @@ then
 
     #fastqc trimmed reads
     cd output/trimmed
-    mv "$1"_trimmed.fq.gz "$1".fastq.gz
+    if [ $TRIM6 = "TRUE" ]
+    then
+        gunzip -c "$1"_trimmed.fq.gz | fastx_trimmer -Q33 -f 6 | gzip -c > "$1".fastq.gz
+        rm "$1"_trimmed.fq.gz
+    else
+        mv "$1"_trimmed.fq.gz "$1".fastq.gz
+    fi
     echo `date`" - Running FastQC on trimmed reads" >> ../"$LOGFILE"
     fastqc "$1".fastq.gz &> /dev/null
     cd ..
@@ -41,9 +48,16 @@ then
     cd output/trimmed
     FW=${2##*/}
     RV=${3##*/}
-    mv "${FW%.fastq.gz}"_val_1.fq.gz "$1"_R1.fastq.gz
-    mv "${RV%.fastq.gz}"_val_2.fq.gz "$1"_R2.fastq.gz
-
+    if [ $TRIM6 = "TRUE" ]
+    then
+        gunzip -c "${FW%.fastq.gz}"_val_1.fq.gz | fastx_trimmer -Q33 -f 7 | gzip -c > "$1"_R1.fastq.gz
+        gunzip -c "${RV%.fastq.gz}"_val_2.fq.gz | fastx_trimmer -Q33 -f 7 | gzip -c > "$1"_R2.fastq.gz
+        rm "${FW%.fastq.gz}"_val_1.fq.gz 
+        rm "${RV%.fastq.gz}"_val_2.fq.gz
+    else
+        mv "${FW%.fastq.gz}"_val_1.fq.gz "$1"_R1.fastq.gz
+        mv "${RV%.fastq.gz}"_val_2.fq.gz "$1"_R2.fastq.gz
+    fi
     #fastqc trimmed reads
     echo `date`" - Running FastQC on trimmed reads" >> ../"$LOGFILE"
     fastqc "$1"_R1.fastq.gz &> /dev/null &
