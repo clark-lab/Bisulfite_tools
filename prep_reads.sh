@@ -30,7 +30,7 @@ then
         mv "$1"_trimmed.fq.gz "$1".fastq.gz
     fi
     echo `date`" - Running FastQC on trimmed reads" >> ../"$LOGFILE"
-    fastqc "$1".fastq.gz &> /dev/null
+    fastqc -t 4 --nogroup "$1".fastq.gz &> /dev/null
     cd ..
 
     echo `date`" - Splitting reads into 20 chunks" >> $LOGFILE
@@ -40,8 +40,8 @@ elif [ $# -eq 3 ] #Paired end run
 then
     echo `date`" - Paired end read preparation" >> output/"$LOGFILE"
     echo `date`" - Running FastQC on untrimmed reads" >> output/"$LOGFILE"
-    fastqc -o output/untrimmed "$2" &> /dev/null
-    fastqc -o output/untrimmed "$3" &> /dev/null
+    fastqc -t 4 --nogroup -o output/untrimmed "$2" &> /dev/null
+    fastqc -t 4 --nogroup -o output/untrimmed "$3" &> /dev/null
     trim_galore -o output/trimmed --no_report_file --paired "$2" "$3"
 
     #fix the awful file names
@@ -60,8 +60,8 @@ then
     fi
     #fastqc trimmed reads
     echo `date`" - Running FastQC on trimmed reads" >> ../"$LOGFILE"
-    fastqc "$1"_R1.fastq.gz &> /dev/null &
-    fastqc "$1"_R2.fastq.gz &> /dev/null &
+    fastqc -t 4 --nogroup "$1"_R1.fastq.gz &> /dev/null
+    fastqc -t 4 --nogroup "$1"_R2.fastq.gz &> /dev/null
     cd ..
 
     #split trimmed reads into 20 chunks

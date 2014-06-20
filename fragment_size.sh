@@ -5,4 +5,4 @@ if [ ! -e "$1" ]; then
   exit 1;
 fi
 
-samtools view "$1" | cut -f 9 | grep -v "-" | sort -k1,1n | uniq -c
+samtools view -f2 -q30 "$1" | cut -f 9 | grep -v "-" | sort -k1,1n | uniq -c
